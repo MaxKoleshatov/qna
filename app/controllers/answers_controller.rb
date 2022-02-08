@@ -8,7 +8,8 @@ class AnswersController < ApplicationController
     if @answer.save
 
       redirect_to @answer
-    else render :new
+    else 
+      render :new
     end
   end
 

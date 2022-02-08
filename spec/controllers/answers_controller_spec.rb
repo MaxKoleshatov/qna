@@ -5,9 +5,9 @@ RSpec.describe AnswersController, type: :controller do
 
     describe 'POST #create' do
       context 'witn valid attributes' do
-        it 'сохраняет ответ в базе' do
+        it 'save answer in database' do
 
-         expect {post :create, params: {question_id: question, answer: attributes_for(:answer)}}.to change(Answer, :count).by(1)
+         expect {post :create, params: {question_id: question, answer: attributes_for(:answer)}}.to change(question.answers, :count).by(1)
         end
 
       it 'redirect new answer' do
@@ -17,7 +17,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'witn invalid attributes' do
-      it 'не сохраняет ответ в базе' do
+      it 'dont save answer in database' do
         expect {post :create, params: {question_id: question, answer: attributes_for(:answer, :invalid)}}.to_not change(Answer, :count)
       end
 
