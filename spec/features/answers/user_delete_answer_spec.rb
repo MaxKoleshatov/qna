@@ -18,7 +18,7 @@ feature 'The user can delete their answers' do
       visit answer_path(answer)
       click_on 'Delete answer'
 
-      expect(page).not_to have_content answer.text.to_s
+      expect(page).not_to have_content answer.text
       expect(page).to have_content 'Yes, you delete answer'
     end
 

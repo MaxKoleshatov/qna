@@ -10,6 +10,6 @@ feature 'User can see question and for answers' do
   scenario 'User can see question and for answers' do
     visit question_path(question)
 
-    expect(page).to have_content answer.text.to_s
+    expect(page).to have_content answer.text
   end
 end

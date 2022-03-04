@@ -13,18 +13,4 @@ module FeatureHelpers
     fill_in 'Password confirmation', with: '123456'
     click_on 'Sign up'
   end
-
-  def create_answer
-    click_on 'All questions'
-    click_on 'MyStringQuestion'
-    fill_in 'Text', with: 'SomeText'
-    click_on 'Create Answer'
-  end
-
-  def create_question
-    click_on 'Create new question'
-    fill_in 'Title', with: "Some Title"
-    fill_in 'Body', with: "Some body"
-    click_on 'Create Question'
-  end
 end

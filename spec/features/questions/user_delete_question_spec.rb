@@ -15,7 +15,7 @@ feature 'The user can delete the question' do
 
       click_on 'Delete'
 
-      expect(page).not_to have_content question.title.to_s
+      expect(page).not_to have_content question.title
       expect(page).to have_content 'Yes, you delete question'
     end
 

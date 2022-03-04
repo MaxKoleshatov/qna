@@ -11,6 +11,6 @@ feature 'User can see all questions' do
     click_on 'All questions'
 
     expect(current_path).to eql(questions_path)
-    expect(page).to have_content question.body.to_s
+    expect(page).to have_content question.body
   end
 end

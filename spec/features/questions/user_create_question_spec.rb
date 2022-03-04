@@ -4,13 +4,15 @@ require 'rails_helper'
 
 feature 'The user can ask a question to find out something' do
   describe 'Authenticated user' do
-    
     given(:user) { create(:user) }
 
     scenario 'Authenticated user can create a question ' do
       sign_in(user)
 
-      create_question
+      click_on 'Create new question'
+      fill_in 'Title', with: 'Some Title'
+      fill_in 'Body', with: 'Some body'
+      click_on 'Create Question'
 
       expect(page).to have_content 'Yes, you create new question'
       expect(page).to have_content 'Some Title'
@@ -28,7 +30,6 @@ feature 'The user can ask a question to find out something' do
   end
 
   describe 'Unauthenticated user' do
-
     scenario 'Unauthenticated user wants to create a question' do
       visit root_path
       click_on 'Create new question'

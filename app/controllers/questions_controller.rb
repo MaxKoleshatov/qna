@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
 
   def index
@@ -37,8 +37,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path, notice: 'Yes, you delete question'
+    if current_user.author?(@question)
+      @question.destroy
+      redirect_to questions_path, notice: 'Yes, you delete question'
+    else
+      redirect_to @question
+    end
   end
 
   private

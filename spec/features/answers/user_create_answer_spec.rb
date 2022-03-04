@@ -8,13 +8,15 @@ feature 'User can answer question', %(
   given!(:question) { create(:question) }
 
   describe 'Authenticated user' do
-    
     given(:user) { create(:user) }
 
     scenario 'Authenticated user create answer' do
       sign_in(user)
 
-      create_answer
+      click_on 'All questions'
+      click_on 'MyStringQuestion'
+      fill_in 'Text', with: 'SomeText'
+      click_on 'Create Answer'
 
       expect(page).to have_content 'Yes, you create new answer'
       expect(page).to have_content 'SomeText'
@@ -32,10 +34,13 @@ feature 'User can answer question', %(
   end
 
   describe 'Unauthenticated user' do
-
     scenario 'Unauthenticated user creates response' do
       visit root_path
-      create_answer
+
+      click_on 'All questions'
+      click_on 'MyStringQuestion'
+      fill_in 'Text', with: 'SomeText'
+      click_on 'Create Answer'
 
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
       expect(page).not_to have_content 'SomeText'

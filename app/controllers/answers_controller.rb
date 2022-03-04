@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-
-  before_action :find_answer, only: %i[show destroy]
   before_action :authenticate_user!, except: [:show]
-
-  def show; end
+  before_action :find_answer, only: %i[show destroy]
 
   def create
     @question = Question.find(params[:question_id])
@@ -15,14 +12,18 @@ class AnswersController < ApplicationController
     if @answer.save
 
       redirect_to @answer, notice: 'Yes, you create new answer'
-    else 
+    else
       render 'questions/show'
     end
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_path(@answer.question), notice: 'Yes, you delete answer'
+    if current_user.author?(@answer)
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: 'Yes, you delete answer'
+    else
+      redirect_to @answer
+    end
   end
 
   private
