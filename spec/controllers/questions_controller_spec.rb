@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
-  let(:user) {create(:user)}
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
 
   describe 'GET #index' do
-
-    let(:questions) { create_list(:question, 1) } 
+    let(:questions) { create_list(:question, 1) }
 
     before { get :index }
 
@@ -32,7 +34,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before {login(user)}
+    before { login(user) }
 
     before { get :new }
 
@@ -46,7 +48,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before {login(user)}
+    before { login(user) }
 
     before { get :edit, params: { id: question } }
 
@@ -54,14 +56,13 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
-
     it 'renders edit view' do
       expect(response).to render_template :edit
     end
   end
 
   describe 'POST #create' do
-    before {login(user)}
+    before { login(user) }
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
@@ -76,7 +77,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.to_not change(Question, :count)
       end
 
       it 're-renders new view' do
@@ -87,7 +90,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before {login(user)}
+    before { login(user) }
 
     context 'with valid attributes' do
       it 'assigns the requested question to @question' do
@@ -126,17 +129,32 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before {login(user)}
+    before { login(user) }
 
-    let!(:question) { create(:question, user_id: user.id) }
+    context 'user author question' do
+      let!(:question) { create(:question, user_id: user.id) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'user not the author question' do
+      let!(:question2) { create(:question, user_id: user2.id) }
+
+      it 'question will not be deleted' do
+        expect { delete :destroy, params: { id: question2 } }.to change(Question, :count).by(0)
+      end
+
+      it 'redirects to show question' do
+        delete :destroy, params: { id: question2 }
+        expect(response).to redirect_to question_path(question2)
+      end
     end
   end
 end

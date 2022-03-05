@@ -1,2 +1,4 @@
-p = link_to answer.text, answer_path(id=" #{answer.id}")
-
+- if answer.persisted?
+    = answer.text
+    - if current_user&.author?(answer)
+      = link_to 'Delete answer', answer_path(answer), method: :delete

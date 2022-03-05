@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
 
     if @answer.save
 
-      redirect_to @answer, notice: 'Yes, you create new answer'
+      redirect_to @question, notice: 'Yes, you create new answer'
     else
       render 'questions/show'
     end
@@ -22,7 +22,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       redirect_to question_path(@answer.question), notice: 'Yes, you delete answer'
     else
-      redirect_to @answer
+      redirect_to question_path(@answer.question)
     end
   end
 
