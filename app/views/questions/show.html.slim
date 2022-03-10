@@ -1,0 +1,30 @@
+= render 'shared/errors', resource: @answer
+
+p  
+= @question.title
+
+p  
+= @question.body
+
+h2 Ответы:
+= render @question.answers
+
+h3 Создать новый ответ на вопрос
+= form_with model: [@question, @answer] do |form| 
+
+  = form.label :text
+  = form.text_area :text 
+  = form.submit
+
+- if current_user&.author?(@question)
+  p = link_to 'Delete question', question_path(@question), method: :delete
+
+
+
+
+ 
+
+
+
+
+
