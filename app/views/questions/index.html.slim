@@ -1,10 +1,9 @@
 h1 Все вопросы
 
-table
-    
-  th Заголовок
-  th Тело
-    
+.question-errors
+  = render 'shared/errors', resource: @answer
+  
+.questions
   = render @questions
 
 

@@ -1,0 +1,7 @@
+$('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+
+<% if !@answer.errors.present? %>
+<% answer_id = @answer.id %>
+
+$(document.getElementById(<%= answer_id %>)).html('<%= j render @answer %>');
+<% end %>
