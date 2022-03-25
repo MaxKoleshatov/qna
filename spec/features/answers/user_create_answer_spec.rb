@@ -10,23 +10,23 @@ feature 'User can answer question', %(
   describe 'Authenticated user' do
     given(:user) { create(:user) }
 
-    scenario 'Authenticated user create answer' do
+    scenario 'Authenticated user create answer', js: true do
       sign_in(user)
 
-      click_on 'All questions'
-      click_on 'MyStringQuestion'
+      visit question_path(question)
+
       fill_in 'Text', with: 'SomeText'
       click_on 'Create Answer'
 
-      expect(page).to have_content 'Yes, you create new answer'
-      expect(page).to have_content 'SomeText'
+      within '.answers' do
+        expect(page).to have_content 'SomeText'
+      end
     end
 
-    scenario 'Authenticated user creates response with errors' do
+    scenario 'Authenticated user creates response with errors', js: true do
       sign_in(user)
 
-      click_on 'All questions'
-      click_on 'MyStringQuestion'
+      visit question_path(question)
       click_on 'Create Answer'
 
       expect(page).to have_content "Text can't be blank"

@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-
+    
     if @question.save
       redirect_to @question, notice: 'Yes, you create new question'
     else
@@ -29,10 +29,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    
+    @question.user = current_user
+
+    if current_user.author?(@question)
+       @question.update(question_params)
     end
   end
 

@@ -1,4 +1,33 @@
 - if answer.persisted?
+  =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
     = answer.text
     - if current_user&.author?(answer)
-      = link_to 'Delete answer', answer_path(answer), method: :delete
+      p = link_to 'Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id}
+    
+      p = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |form|
+        = form.label(:text)
+        = form.text_area :text 
+        = form.submit 'Save'
+
+      p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, local: false
+
+
+    - if answer.best
+      p = 'This best answer'
+
+    - if current_user&.author?(answer.question)
+      p = link_to 'Make Best', set_as_the_best_answer_path(answer), method: :post, remote: true, local: false
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
