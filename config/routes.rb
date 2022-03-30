@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'welcome#index'
+
+  resources :attachments, only: %i[destroy]
 end
 
