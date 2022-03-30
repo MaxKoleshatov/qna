@@ -26,6 +26,26 @@ feature 'The user can edit their questions' do
     expect(page).to_not have_selector 'textarea'
   end
 
+  scenario 'authorized user can add attachments when editing their question', js: true do
+    sign_in(user)
+    visit questions_path
+    click_on 'Edit question'
+
+    attach_file 'File',
+                ["#{Rails.root}/spec/features/images/image_1.rb", "#{Rails.root}/spec/features/images/image_2.rb"]
+    click_on 'Save'
+
+    expect(page).to have_link 'image_1.rb'
+    expect(page).to have_link 'image_2.rb'
+  end
+
+  scenario 'authorized user is trying to add attachments while editing alien question' do
+    sign_in(user1)
+    visit questions_path
+
+    expect(page).to_not have_content 'Edit question'
+  end
+
   scenario 'authorized user cannot edit alien questions' do
     sign_in(user1)
 
