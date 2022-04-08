@@ -9,6 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "packs/utilities/answers"
 import "packs/utilities/questions"
+import "cocoon"
 
 
 Rails.start()

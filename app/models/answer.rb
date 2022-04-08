@@ -5,6 +5,9 @@ class Answer < ApplicationRecord
   belongs_to :user
 
   has_many_attached :files
+  has_many :links, dependent: :destroy, as: :linkable
+  
+  accepts_nested_attributes_for :links, reject_if: :all_blank
 
   scope :sort_by_best, -> { order(best: :desc) }
 
@@ -14,6 +17,9 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.update_all(best: false)
       update!(best: true)
+      question.prize&.update!(user_id: self.user.id)
     end
   end
+
+ 
 end

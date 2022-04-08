@@ -33,6 +33,7 @@ class AnswersController < ApplicationController
     @question = @answer.question
     
     @answer.best_answer if current_user.author?(@question)
+    # @answer.add_prize
   end
 
   private
@@ -42,6 +43,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:text, files: [])
+    params.require(:answer).permit(:text, files: [], links_attributes: [:id, :name, :url])
   end
 end

@@ -9,6 +9,10 @@ Rails.application.routes.draw do
 
   root to: 'welcome#index'
 
+  resources :prizes
+
   resources :attachments, only: %i[destroy]
+
+  resources :links, only: %i[destroy]
 end
 

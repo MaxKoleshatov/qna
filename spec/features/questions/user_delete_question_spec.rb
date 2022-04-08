@@ -13,7 +13,7 @@ feature 'The user can delete the question' do
       sign_in(user1)
       visit question_path(question)
 
-      click_on 'Delete'
+      click_on 'Delete question'
 
       expect(page).not_to have_content question.title
       expect(page).to have_content 'Yes, you delete question'
@@ -37,7 +37,7 @@ feature 'The user can delete the question' do
 
       visit question_path(question)
 
-      expect(page).not_to have_content 'Delete'
+      expect(page).not_to have_content 'Delete question'
     end
 
     scenario 'Authenticated user cant delete attachment from alien question' do
@@ -57,7 +57,7 @@ feature 'The user can delete the question' do
 
       visit question_path(question)
 
-      expect(page).not_to have_content 'Delete'
+      expect(page).not_to have_content 'Delete question'
     end
 
     scenario 'Unauthenticated user cant delete attachment from alien question' do
