@@ -11,11 +11,16 @@
         p
           = form.label :files
           = form.file_field :files, multiple: true
+  
+        p Links:
         p
-          = form.submit 'Save'
+          = form.fields_for :links do |link|
+            = render 'questions/link_fields', form: link
+        p     
+          = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'questions/link_fields'
+        = form.submit 'Save'  
 
       p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, local: false
-
 
     - if answer.best
       p = 'This best answer'
@@ -23,12 +28,25 @@
     - if current_user&.author?(answer.question)
       p = link_to 'Make Best', set_as_the_best_answer_path(answer), method: :post, remote: true, local: false
 
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          =content_tag(:div, id: "link-#{link.id}")
+            li= link_to link.name, link.url
+            - if current_user&.author?(link.linkable)
+              p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
+
     - if answer.files.attached?
       - answer.files.each do |file|
         =content_tag(:div, id: "file-#{file.id}")
           p= link_to file.filename.to_s, url_for(file)
           - if current_user&.author?(answer)
             p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
+
+  
+  
+
 
 
 

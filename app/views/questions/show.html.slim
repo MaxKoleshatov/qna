@@ -1,3 +1,6 @@
+.answer-errors
+  = render 'shared/errors', resource: @answer
+
 p= @question.title
 p= @question.body
 
@@ -7,6 +10,24 @@ p= @question.body
       p= link_to file.filename.to_s, url_for(file)
       - if current_user&.author?(@question)
         p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
+
+- if !@question.links.empty?
+  .links
+    p Links:
+    ul
+      - @question.links.each do |link|
+        =content_tag(:div, id: "link-#{link.id}")
+          li= link_to link.name, link.url
+          - if current_user&.author?(link.linkable)
+            p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
+
+h1= "PRIZE FOR ANSWER"
+.prizes  
+  - if !@question.prize.nil?
+    p= @question.prize.user_id
+    p= @question.prize.name
+    = image_tag @question.prize.image, style: "width: 250px"
+
 
 h1= "Answers"
 .answers
@@ -20,14 +41,19 @@ h3 Create new answer
   p
     = form.label :files
     = form.file_field :files, multiple: true
+
+  p Links:
   p
-    = form.submit
+    = form.fields_for :links do |link|
+      = render 'link_fields', form: link
+  p     
+    = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'link_fields'
+  = form.submit 'Create Answer' 
 
 - if current_user&.author?(@question)
   p = link_to 'Delete question', question_path(@question), method: :delete
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
+
 
 
 

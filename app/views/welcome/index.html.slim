@@ -1,5 +1,7 @@
 h1 "Start page"
 
-p = link_to 'Log owt', destroy_user_session_path, method: :delete
+p = link_to 'Log out', destroy_user_session_path, method: :delete
 p = link_to 'Create new question', new_question_path
 p = link_to 'All questions', questions_path
+- if user_signed_in?
+  p = link_to 'All prizes', prizes_path

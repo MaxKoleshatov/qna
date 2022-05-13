@@ -13,8 +13,14 @@
       p
         = form.label :files
         = form.file_field :files, multiple: true
-      p 
-        = form.submit 'Save' 
+
+      p Links:
+      p
+        = form.fields_for :links do |link|
+          = render 'link_fields', form: link
+      p  
+        = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'link_fields'
+      = form.submit 'Save' 
 
   p= question.body
 

@@ -8,7 +8,7 @@ feature 'User can sign owt' do
     
     sign_in(user)
 
-    click_on 'Log owt'
+    click_on 'Log out'
 
     expect(page).to have_content 'Signed out successfully.'
   end
