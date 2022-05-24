@@ -4,6 +4,9 @@
 p= @question.title
 p= @question.body
 
+h1= Counter
+= render 'counters/counter', resource: @question
+
 - if @question.files.attached?
   - @question.files.each do |file|
     =content_tag(:div, id: "file-#{file.id}")

@@ -7,6 +7,7 @@ feature 'User can delete links' do
   given(:user2) { create(:user) }
   given!(:question) { create(:question, user_id: user.id) }
   given!(:link) { create(:link, linkable: question, url: 'https://www.google.ru') }
+  given!(:counter) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
 
   scenario 'Authorized user can delete link if he author link', js: true do
     sign_in(user)

@@ -3,12 +3,18 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_answer, only: %i[show destroy]
+  # after_action :create_counter, only: %i[create]
+
+  include Vote
 
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
+    @instance = @answer
     @answer.user = current_user
     @answer.save
+
+    create_counter
   end
 
   def update
@@ -16,24 +22,21 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if current_user.author?(@answer)
-      
+
       @answer.update(answer_params)
       @question = @answer.question
     end
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.delete
-    end
+    @answer.delete if current_user.author?(@answer)
   end
 
   def set_as_the_best
     @answer = Answer.find(params[:id])
     @question = @answer.question
-    
+
     @answer.best_answer if current_user.author?(@question)
-    # @answer.add_prize
   end
 
   private
@@ -43,6 +46,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:text, files: [], links_attributes: [:id, :name, :url])
+    params.require(:answer).permit(:text, files: [], links_attributes: %i[id name url])
   end
 end

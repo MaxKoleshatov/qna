@@ -6,6 +6,8 @@ feature 'User can answer question', %(
   to convey information
 ) do
   given!(:question) { create(:question) }
+  given!(:counter1) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
+  # given!(:counter2) {create(:counter_answer, counterable_id: answer.id, counterable_type: answer.class)}
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }
