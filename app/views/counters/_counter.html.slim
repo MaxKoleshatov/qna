@@ -1,7 +1,7 @@
-=content_tag(:div, id: "counter-#{resource.counter.id}")
-  p= resource.counter.value
+=content_tag(:div, id: "counter-progress")
+  p= resource.progress
 
 - if user_signed_in?
-  p= link_to 'UP', polymorphic_path(resource, action: :up_value_counter), method: :post, data: { type: :json }, class: 'up', remote: true
-  p= link_to 'DOWN', polymorphic_path(resource, action: :down_value_counter), method: :post, data: { type: :json }, class: 'down', remote: true
+  p= link_to 'UP', polymorphic_path(resource, action: :plus_vote), method: :post, data: { type: :json }, class: 'up', remote: true
+  p= link_to 'DOWN', polymorphic_path(resource, action: :minus_vote), method: :post, data: { type: :json }, class: 'down', remote: true
   p= link_to 'DELETE_VOTE', polymorphic_path(resource, action: :delete_vote), method: :post, data: { type: :json }, class: 'delete', remote: true

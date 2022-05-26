@@ -2,7 +2,7 @@
 
 class Answer < ApplicationRecord
 
-  include Counterable
+  include Voteable
   
   belongs_to :question
   belongs_to :user

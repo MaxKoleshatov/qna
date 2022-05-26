@@ -3,9 +3,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
-  after_action :create_counter, only: %i[create]
 
-  include Vote
+  include Voted
 
   def index
     @questions = Question.all
@@ -26,7 +25,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.questions.new(question_params)
-    @instance = @question
 
     if @question.save
       redirect_to @question, notice: 'Yes, you create new question'

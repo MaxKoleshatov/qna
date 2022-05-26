@@ -6,7 +6,6 @@ feature 'User can add links to answer' do
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:gist_url1) { 'https://www.google.ru' }
-  given!(:counter1) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
 
   scenario 'User add link when create answer', js: true do
     sign_in(user)

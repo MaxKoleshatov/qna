@@ -5,7 +5,6 @@ require 'rails_helper'
 feature 'The user can delete the question' do
   given(:user1) { create(:user) }
   given(:question) { create(:question, user: user1) }
-  given!(:counter) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
 
   describe 'Authenticated user' do
     given(:user2) { create(:user) }

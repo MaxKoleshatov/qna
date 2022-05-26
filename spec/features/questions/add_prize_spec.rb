@@ -9,9 +9,6 @@ feature 'User can create prize to question' do
   given!(:answer) { create(:answer, question_id: question.id, user_id: user2.id) }
   given!(:prize) { create(:prize, question_id: question.id) }
   given!(:prize1) { create(:prize, question_id: question.id, user_id: user2.id) }
-  given!(:counter1) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
-  given!(:counter2) {create(:counter_answer, counterable_id: answer.id, counterable_type: answer.class)}
-
 
   scenario 'User create prize when asks question' do
     sign_in(user)

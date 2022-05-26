@@ -3,18 +3,14 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_answer, only: %i[show destroy]
-  # after_action :create_counter, only: %i[create]
 
-  include Vote
+  include Voted
 
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
-    @instance = @answer
     @answer.user = current_user
     @answer.save
-
-    create_counter
   end
 
   def update

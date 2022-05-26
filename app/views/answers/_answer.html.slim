@@ -2,7 +2,7 @@
   =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
     = answer.text
 
-    h1= Counter
+    h1= "Counter"
     = render 'counters/counter', resource: answer
 
     - if current_user&.author?(answer)

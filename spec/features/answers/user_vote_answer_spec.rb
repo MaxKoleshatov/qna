@@ -2,15 +2,13 @@
 
 require 'rails_helper'
 
-feature 'Юзер может проголосовать за ответ' do
+feature 'User can upvote the answer' do
   given!(:user) { create(:user) }
   given!(:user1) { create(:user) }
   given!(:question) { create(:question, user_id: user.id) }
   given!(:answer) { create(:answer, question_id: question.id) }
-  given!(:counter1) { create(:counter_question, counterable_id: question.id, counterable_type: question.class) }
-  given!(:counter2) { create(:counter_answer, counterable_id: answer.id, counterable_type: answer.class) }
 
-  scenario 'Аутентифицированный пользователь может проголосовать за чужой ответ', js: true do
+  scenario 'An authenticated user can upvote someone else answer', js: true do
     sign_in(user1)
     visit question_path(question)
 
@@ -21,7 +19,7 @@ feature 'Юзер может проголосовать за ответ' do
     expect(page).to have_content '1'
   end
 
-  scenario 'Аутентифицированный пользователь может проголовать за или против 1 раз', js: true do
+  scenario 'Authenticated user can vote for or against 1 time', js: true do
     sign_in(user1)
     visit question_path(question)
 
@@ -33,7 +31,7 @@ feature 'Юзер может проголосовать за ответ' do
     expect(page).to have_content '-1'
   end
 
-  scenario 'Аутентифицированный пользователь может отменить свой голос и проголосовать заново', js: true do
+  scenario 'An authenticated user can cancel their vote and vote again', js: true do
     sign_in(user1)
     visit question_path(question)
 
@@ -46,7 +44,7 @@ feature 'Юзер может проголосовать за ответ' do
     expect(page).to have_content '-1'
   end
 
-  scenario 'Не ауинтефицированный пользователь не может проголосовать' do
+  scenario 'Unauthenticated user cannot vote' do
     visit question_path(question)
 
     within('.answers') do

@@ -7,8 +7,6 @@ feature 'The user can edit their answers' do
   given!(:user1) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, user: user) }
-  given!(:counter1) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
-  given!(:counter2) {create(:counter_answer, counterable_id: answer.id, counterable_type: answer.class)}
 
   scenario 'Unauthorized user cannot edit answers' do
     visit question_path(question)

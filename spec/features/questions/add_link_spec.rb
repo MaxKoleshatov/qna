@@ -7,7 +7,6 @@ feature 'User can add links to question' do
   given!(:gist_url1) { 'https://www.google.ru' }
   given(:gist_url2) { 'https://www.google.ru' }
   given!(:question) { create(:question, user_id: user.id) }
-  given!(:counter) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
 
   scenario 'User adds some links when asks question' do
     sign_in(user)

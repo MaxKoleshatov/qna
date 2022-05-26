@@ -8,9 +8,6 @@ feature 'The user can choose the best answer' do
   given!(:question) { create(:question, user_id: user.id) }
   given!(:answer) { create(:answer, question_id: question.id, user_id: user.id) }
   given!(:answer1) { create(:answer, question_id: question.id, user_id: user1.id) }
-  given!(:counter1) {create(:counter_question, counterable_id: question.id, counterable_type: question.class)}
-  given!(:counter2) {create(:counter_answer, counterable_id: answer.id, counterable_type: answer.class)}
-  given!(:counter3) {create(:counter_answer, counterable_id: answer1.id, counterable_type: answer1.class)}
 
   describe 'Unauthorized user' do
     scenario 'Unauthorized user cannot choose the best answer' do

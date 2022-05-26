@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_14_094113) do
+ActiveRecord::Schema.define(version: 2022_05_26_104017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,18 +52,6 @@ ActiveRecord::Schema.define(version: 2022_05_14_094113) do
     t.boolean "best", default: false, null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
-  end
-
-  create_table "counters", force: :cascade do |t|
-    t.integer "value", default: 0
-    t.string "counterable_type"
-    t.bigint "counterable_id"
-    t.bigint "user_id"
-    t.string "vote_user", default: [], array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["counterable_type", "counterable_id"], name: "index_counters_on_counterable"
-    t.index ["user_id"], name: "index_counters_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -108,12 +96,23 @@ ActiveRecord::Schema.define(version: 2022_05_14_094113) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "value", default: 0
+    t.string "voteable_type"
+    t.bigint "voteable_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
-  add_foreign_key "counters", "users"
   add_foreign_key "prizes", "questions"
   add_foreign_key "prizes", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "votes", "users"
 end

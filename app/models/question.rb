@@ -1,6 +1,6 @@
 class Question < ApplicationRecord
 
-  include Counterable
+  include Voteable
   
   has_one :prize, dependent: :destroy
 

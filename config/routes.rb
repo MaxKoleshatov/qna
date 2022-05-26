@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, shallow: true do
       post :set_as_the_best, on: :member
-      post :up_value_counter, on: :member
-      post :down_value_counter, on: :member
+      post :plus_vote, on: :member
+      post :minus_vote, on: :member
       post :delete_vote, on: :member
     end
   end
@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   resources :links, only: %i[destroy]
 
   resources :questions do
-    post :up_value_counter, on: :member
-    post :down_value_counter, on: :member
+    post :plus_vote, on: :member
+    post :minus_vote, on: :member
     post :delete_vote, on: :member
   end
 end
