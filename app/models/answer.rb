@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
+
+  include Voteable
+  
   belongs_to :question
   belongs_to :user
 
@@ -19,7 +22,5 @@ class Answer < ApplicationRecord
       update!(best: true)
       question.prize&.update!(user_id: self.user.id)
     end
-  end
-
- 
+  end 
 end

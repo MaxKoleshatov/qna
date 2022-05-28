@@ -5,7 +5,7 @@ require 'rails_helper'
 feature 'The user can delete their answers' do
   given(:user1) { create(:user) }
   given(:question) { create(:question, user: user1) }
-
+  
   describe 'Authenticated user' do
     given(:user2) { create(:user) }
     given!(:answer) { create(:answer, question: question, user: user1) }
