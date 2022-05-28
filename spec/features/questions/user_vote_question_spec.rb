@@ -42,4 +42,13 @@ feature 'User can vote for a question' do
 
     expect(page).to_not have_content 'UP'
   end
+
+  scenario 'авторизованный пользователь не может проголосовать за свой вопрос' do
+    sign_in(user)
+    visit question_path(question)
+
+    click_on 'UP'
+
+    expect(page).to have_content '0'
+  end
 end

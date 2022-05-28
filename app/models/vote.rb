@@ -1,7 +1,5 @@
 class Vote < ApplicationRecord
 
-  include Voteable
-
   belongs_to :voteable, polymorphic: true
   belongs_to :user
 

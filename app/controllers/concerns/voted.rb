@@ -26,7 +26,8 @@ module Voted
     private
 
     def check_vote
-      @vote.voteable.user.id == current_user.id || @vote.voteable.votes.where(user_id: current_user.id) != []
+      # @vote.voteable.user_id == current_user.id || !@vote.voteable.votes.where(user_id: current_user.id).empty?
+      current_user.author?(@vote.voteable) || !@vote.voteable.votes.where(user_id: current_user.id).empty?
     end
 
     def find_vote
