@@ -60,4 +60,5 @@ feature 'The user can ask a question to find out something' do
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
+  
 end

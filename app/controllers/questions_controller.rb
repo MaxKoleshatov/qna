@@ -3,16 +3,24 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :load_question, only: %i[show edit update destroy]
+  after_action :publish_question, only: %i[create]
 
   include Voted
 
   def index
     @questions = Question.all
+    gon.push({
+               current_user: current_user
+             })
   end
 
   def show
     @answer = Answer.new
     @answer.links.new
+
+    @comment = Comment.new
+
+    
   end
 
   def new
@@ -52,6 +60,20 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.with_attached_files.find(params[:id])
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    
+    ActionCable.server.broadcast(
+      'questions', {
+        partial: ApplicationController.render(
+          partial: 'questions/question',
+          locals: { question: @question, current_user: current_user }
+        ),
+        question: @question
+      }
+    )
   end
 
   def question_params

@@ -1,0 +1,8 @@
+=content_tag(:div, id: "comment")
+  h3 Create new comment
+  = form_with model: [commentable, @comment], class: 'comment-new', local: false do |form| 
+    p
+        = form.label :text
+        = form.text_area :Comment
+
+    = form.submit 'Create Comment'

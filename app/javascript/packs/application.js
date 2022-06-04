@@ -10,7 +10,9 @@ import "channels"
 import "packs/utilities/answers"
 import "packs/utilities/questions"
 import "packs/utilities/counters"
+import "packs/utilities/comments"
 import "cocoon"
+
 
 
 Rails.start()

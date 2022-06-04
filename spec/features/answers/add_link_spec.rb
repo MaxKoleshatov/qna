@@ -11,6 +11,7 @@ feature 'User can add links to answer' do
     sign_in(user)
 
     visit question_path(question)
+    # save_and_open_page
 
     fill_in 'Text', with: 'SomeText'
 

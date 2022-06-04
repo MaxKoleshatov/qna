@@ -3,6 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_answer, only: %i[show destroy]
+  after_action :publish_answer, only: %i[create]
 
   include Voted
 
@@ -11,6 +12,8 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     @answer.save
+
+    @comment = Comment.new
   end
 
   def update
@@ -39,6 +42,18 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def publish_answer
+    ActionCable.server.broadcast(
+      'answers', {
+        partial: ApplicationController.render(
+          partial: 'answers/answer',
+          locals: { answer: @answer, current_user: current_user },
+          assigns: { comment: Comment.new }
+        )
+      }
+    )
   end
 
   def answer_params
