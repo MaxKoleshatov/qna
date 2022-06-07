@@ -4,29 +4,33 @@ class CommentsController < ApplicationController
   
     def destroy
       @comment = Comment.find(params[:id])
-      @comment.destroy if current_user.author?(@comment.commentable)
+      @comment.destroy if current_user.author?(@comment)
     end
 
     def create
-    @commentable = Answer.find_by(id: params[:answer_id]) || Question.find_by(id: params[:question_id])
-    @comment = @commentable.comments.create(comment_params)
-    @comment.save
-  end
+      @commentable = Answer.find_by(id: params[:answer_id]) || Question.find_by(id: params[:question_id])
+      @comment = @commentable.comments.new(comment_params.merge(user: current_user))
+      @comment.save
+    end
 
-  def comment_params
-    params.require(:comment).permit(:text)
-  end
+    def comment_params
+      params.require(:comment).permit(:text)
+    end
 
-  def publish_comment
-    ActionCable.server.broadcast(
-      'comments', {
-        partial: ApplicationController.render(
-          partial: 'comments/comment',
-          locals: { comment: @comment}
-        ),
-        comment: @comment
-      }
-    )
+    def publish_comment
+      ActionCable.server.broadcast(
+        "comments-#{channel.id}", {
+          partial: ApplicationController.render(
+            partial: 'comments/commentuser',
+            locals: { comment: @comment}
+          ),
+          comment: @comment
+        }
+      )
+    end
+
+    def channel
+      @comment.commentable_type.to_sym == :Answer ? @comment.commentable.question : @comment.commentable
+    end
   end
-end
-  
+    

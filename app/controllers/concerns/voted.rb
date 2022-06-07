@@ -26,7 +26,6 @@ module Voted
     private
 
     def check_vote
-      # @vote.voteable.user_id == current_user.id || !@vote.voteable.votes.where(user_id: current_user.id).empty?
       current_user.author?(@vote.voteable) || !@vote.voteable.votes.where(user_id: current_user.id).empty?
     end
 
@@ -40,7 +39,7 @@ module Voted
 
     def success_response
       render json: {
-        id: @vote.id,
+        id: @vote.voteable.id,
         value: @vote.value,
         progress: @vote.voteable.progress
       }

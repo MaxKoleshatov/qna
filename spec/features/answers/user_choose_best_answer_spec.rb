@@ -8,6 +8,7 @@ feature 'The user can choose the best answer' do
   given!(:question) { create(:question, user_id: user.id) }
   given!(:answer) { create(:answer, question_id: question.id, user_id: user.id) }
   given!(:answer1) { create(:answer, question_id: question.id, user_id: user1.id) }
+  given(:answer_text) { Faker::Lorem.characters }
 
   describe 'Unauthorized user' do
     scenario 'Unauthorized user cannot choose the best answer' do

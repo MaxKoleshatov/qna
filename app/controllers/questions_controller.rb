@@ -9,18 +9,18 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
-    gon.push({
-               current_user: current_user
-             })
+   
   end
 
   def show
     @answer = Answer.new
     @answer.links.new
-
     @comment = Comment.new
 
-    
+    gon.push({
+      current_user: current_user,
+      question_id: @question.id
+    })  
   end
 
   def new
@@ -68,7 +68,7 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions', {
         partial: ApplicationController.render(
-          partial: 'questions/question',
+          partial: 'questions/questionuser',
           locals: { question: @question, current_user: current_user }
         ),
         question: @question

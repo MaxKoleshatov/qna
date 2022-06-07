@@ -1,4 +1,4 @@
-=content_tag(:div, id: "counter-progress")
+=content_tag(:div, id: "counter-progress-#{resource.id}")
   p= resource.progress
 
 p= link_to 'UP', polymorphic_path(resource, action: :plus_vote), method: :post, data: { type: :json }, class: 'up', remote: true

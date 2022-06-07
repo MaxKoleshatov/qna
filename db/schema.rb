@@ -58,9 +58,11 @@ ActiveRecord::Schema.define(version: 2022_05_30_092805) do
     t.string "text"
     t.string "commentable_type"
     t.bigint "commentable_id"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -120,6 +122,7 @@ ActiveRecord::Schema.define(version: 2022_05_30_092805) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "prizes", "questions"
   add_foreign_key "prizes", "users"
   add_foreign_key "questions", "users"

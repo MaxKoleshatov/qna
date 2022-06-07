@@ -1,26 +1,20 @@
 import consumer from "channels/consumer"
 
-consumer.subscriptions.create({ channel: "CommentsChannel"}, {
+consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.question_id}, {
     connected() {
         return this.perform("follow")
-        // console.log("CONNECTED commmet")
     },
     received: (data) => {
+      const {comment} = data;
+      const type = comment.commentable_type.toLowerCase();
+      const id = comment.commentable_id
+      const findcomment = "comment-" + id
 
-        const {comment} = data;
-
-        const type = comment.commentable_type.toLowerCase();
-
-        const id = comment.commentable_id
-
-        const findcomment = "comment-" + id
-
-        if (type === 'question') {
-            $('.comments_question').append(data.partial);
-        } else {
-            $(document.getElementsByClassName(findcomment)).append(data.partial);
-        }
+      if (type === 'question' && comment.user_id !== gon.current_user.id) 
+        {$('.comments_question').append(data.partial)} 
+      else if (type === 'answer' && comment.user_id !== gon.current_user.id) 
+        {$(document.getElementsByClassName(findcomment)).append(data.partial)}
                     
-        $('.comment-new #comment_text').val('');
+      $('.comment-new #comment_text').val('');
     }
 });

@@ -12,8 +12,6 @@ class AnswersController < ApplicationController
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     @answer.save
-
-    @comment = Comment.new
   end
 
   def update
@@ -46,12 +44,13 @@ class AnswersController < ApplicationController
 
   def publish_answer
     ActionCable.server.broadcast(
-      'answers', {
+      "questions/#{params[:question_id]}/answers", {
         partial: ApplicationController.render(
-          partial: 'answers/answer',
-          locals: { answer: @answer, current_user: current_user },
+          partial: 'answers/answeruser',
+          locals: { answer: @answer},
           assigns: { comment: Comment.new }
-        )
+        ),
+        answer: @answer
       }
     )
   end

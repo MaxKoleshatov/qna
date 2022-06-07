@@ -11,14 +11,17 @@ $(document).on('turbolinks:load', function(){
     })
  });
 
- consumer.subscriptions.create({ channel: "AnswersChannel"}, {
+ consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.question_id }, {
     connected() {
-        // console.log("Ответы")
-        return this.perform("follow")
+      return this.perform("follow")
     },
     received: (data) => {
-      $('.answers').append(data.partial);
+      const {answer} = data;
+
+      if (answer.user_id !== gon.current_user.id) 
+      {$('.answers').append(data.partial)} 
       $('.answer-new #answer_text').val('');
     }
+    
 });
  
