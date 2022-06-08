@@ -1,10 +1,11 @@
 .answer-errors
   = render 'shared/errors', resource: @answer
 
+h1= "Questions"
 p= @question.title
 p= @question.body
 
-h1= "Counter"
+p Counter
 = render 'counters/counter', resource: @question
 
 - if @question.files.attached?
@@ -24,12 +25,18 @@ h1= "Counter"
           - if current_user&.author?(link.linkable)
             p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
 
-h1= "PRIZE FOR ANSWER"
+p PRIZE FOR ANSWER
 .prizes  
   - if !@question.prize.nil?
     p= @question.prize.user_id
     p= @question.prize.name
-    = image_tag @question.prize.image, style: "width: 250px"
+    = image_tag @question.prize.image, style: "width: 250px"    
+
+p Comments
+.comments_question
+  = render @question.comments
+
+= render 'comments/form', commentable: @question
 
 
 h1= "Answers"
@@ -55,14 +62,3 @@ h3 Create new answer
 
 - if current_user&.author?(@question)
   p = link_to 'Delete question', question_path(@question), method: :delete
-
-
-
-
-
- 
-
-
-
-
-

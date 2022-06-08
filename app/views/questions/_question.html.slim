@@ -19,8 +19,9 @@
         = form.fields_for :links do |link|
           = render 'link_fields', form: link
       p  
-        = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'link_fields'
-      = form.submit 'Save' 
+        = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'questions/link_fields'
+      = form.submit 'Save'
+       
 
   p= question.body
 
@@ -30,6 +31,7 @@
           p= link_to file.filename.to_s, url_for(file)
           - if current_user&.author?(question) 
             p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
+
   
 
 

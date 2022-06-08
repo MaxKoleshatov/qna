@@ -13,5 +13,9 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :links, reject_if: :all_blank
   accepts_nested_attributes_for :prize, reject_if: :all_blank
 
+  has_many :comments, dependent: :destroy, as: :commentable
+ 
+
+
   validates :title, :body, presence: true
 end

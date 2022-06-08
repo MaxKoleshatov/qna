@@ -8,9 +8,11 @@ class Answer < ApplicationRecord
   belongs_to :user
 
   has_many_attached :files
+
   has_many :links, dependent: :destroy, as: :linkable
-  
   accepts_nested_attributes_for :links, reject_if: :all_blank
+
+  has_many :comments, dependent: :destroy, as: :commentable
 
   scope :sort_by_best, -> { order(best: :desc) }
 

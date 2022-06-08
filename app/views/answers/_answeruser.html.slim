@@ -1,0 +1,18 @@
+- if answer.persisted?
+  =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
+    = answer.text
+
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          =content_tag(:div, id: "link-#{link.id}")
+            li= link_to link.name, link.url
+
+    p Counter
+    = render 'counters/counter', resource: answer
+
+    =content_tag(:div, class: "comment-#{answer.id}")
+      p Comments:
+      = render answer.comments
+  = render 'comments/form', commentable: answer

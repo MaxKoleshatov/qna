@@ -3,6 +3,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_answer, only: %i[show destroy]
+  after_action :publish_answer, only: %i[create]
 
   include Voted
 
@@ -39,6 +40,19 @@ class AnswersController < ApplicationController
 
   def find_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def publish_answer
+    ActionCable.server.broadcast(
+      "questions/#{params[:question_id]}/answers", {
+        partial: ApplicationController.render(
+          partial: 'answers/answeruser',
+          locals: { answer: @answer},
+          assigns: { comment: Comment.new }
+        ),
+        answer: @answer
+      }
+    )
   end
 
   def answer_params

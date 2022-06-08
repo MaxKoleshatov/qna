@@ -1,0 +1,13 @@
+<% if @comment.commentable.class == Question %>
+  $('.comments_question').append('<%= j render @comment %>')
+  $('.comment-new #comment_text').val('')
+<% end %>
+
+<% if @comment.commentable.class == Answer %>
+  <% comment_id = "comment-" + "#{@comment.commentable.id}" %>
+  $(document.getElementsByClassName('<%= comment_id %>')).append('<%= j render @comment %>')
+  $('.comment-new #comment_text').val('')
+<% end %>
+
+
+

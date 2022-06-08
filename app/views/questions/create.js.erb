@@ -1,0 +1,3 @@
+<% if @question.persisted? %>
+  $('.questions').append('<%= j render @question %>');
+<% end %>

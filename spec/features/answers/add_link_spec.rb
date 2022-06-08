@@ -9,7 +9,6 @@ feature 'User can add links to answer' do
 
   scenario 'User add link when create answer', js: true do
     sign_in(user)
-
     visit question_path(question)
 
     fill_in 'Text', with: 'SomeText'

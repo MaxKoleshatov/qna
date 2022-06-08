@@ -1,9 +1,9 @@
+.answer-errors
+  = render 'shared/errors', resource: answer
+
 - if answer.persisted?
   =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
     = answer.text
-
-    h1= "Counter"
-    = render 'counters/counter', resource: answer
 
     - if current_user&.author?(answer)
       p = link_to 'Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id}
@@ -47,3 +47,12 @@
           p= link_to file.filename.to_s, url_for(file)
           - if current_user&.author?(answer)
             p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
+  
+    p Counter
+    = render 'counters/counter', resource: answer
+
+    =content_tag(:div, class: "comment-#{answer.id}")
+      p Comments:
+      = render answer.comments
+    = render 'comments/form', commentable: answer
+

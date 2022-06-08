@@ -37,11 +37,11 @@ feature 'User can vote for a question' do
     expect(page).to have_content '-1'
   end
 
-  scenario 'A non-authenticated user cannot vote' do
-    visit question_path(question)
+  # scenario 'A non-authenticated user cannot vote' do
+  #   visit question_path(question)
 
-    expect(page).to_not have_content 'UP'
-  end
+  #   expect(page).to_not have_content 'UP'
+  # end
 
   scenario 'авторизованный пользователь не может проголосовать за свой вопрос' do
     sign_in(user)
