@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answer.links.new
-    @comment = Comment.new
+    # @comment = Comment.new
 
     gon.push({
       current_user: current_user,

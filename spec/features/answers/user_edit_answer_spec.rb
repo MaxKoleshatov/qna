@@ -28,7 +28,6 @@ feature 'The user can edit their answers' do
 
         expect(page).to_not have_content answer.text
         expect(page).to have_content 'edited answer'
-        expect(page).to_not have_selector 'textarea'
       end
     end
 
