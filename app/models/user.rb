@@ -5,16 +5,22 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: %i[github google_oauth2]
 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :prizes, dependent: :destroy
   has_many :votes, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :authorizations, dependent: :destroy
 
 
   def author?(object)
     object.user_id == id
+  end
+
+  def self.find_for_oauth(auth)
+    FindForOauthService.new(auth).call
   end
 end

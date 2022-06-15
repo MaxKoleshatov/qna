@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
   resources :questions do
     resources :answers, shallow: true do
       post :set_as_the_best, on: :member
