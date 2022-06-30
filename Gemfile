@@ -37,6 +37,11 @@ gem "validate_url"
 gem "image_processing"
 gem 'gon'
 gem 'skim'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
