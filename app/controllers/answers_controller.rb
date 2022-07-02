@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  authorize_resource
+
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
@@ -18,22 +20,21 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     @answer.user = current_user
 
-    if current_user.author?(@answer)
-
+    if can?(:update, @answer)
       @answer.update(answer_params)
       @question = @answer.question
     end
   end
 
   def destroy
-    @answer.delete if current_user.author?(@answer)
+    @answer.delete if can?(:destroy, @answer)
   end
 
   def set_as_the_best
     @answer = Answer.find(params[:id])
     @question = @answer.question
 
-    @answer.best_answer if current_user.author?(@question)
+    @answer.best_answer if can?(:update, @question)
   end
 
   private

@@ -1,10 +1,12 @@
 class CommentsController < ApplicationController
 
   after_action :publish_comment, only: %i[create]
+
+  authorize_resource
   
     def destroy
       @comment = Comment.find(params[:id])
-      @comment.destroy if current_user.author?(@comment)
+      @comment.destroy if can?(:update, @comment)
     end
 
     def create

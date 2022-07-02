@@ -5,7 +5,7 @@
   =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
     = answer.text
 
-    - if current_user&.author?(answer)
+    - if can?(:update, answer)
       p = link_to 'Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id}
     
       p = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |form|
@@ -23,13 +23,13 @@
         p     
           = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'questions/link_fields'
         = form.submit 'Save'  
-
+  
       p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, local: false
 
     - if answer.best
       p = 'This best answer'
 
-    - if current_user&.author?(answer.question)
+    - if can?(:update, answer.question)
       p = link_to 'Make Best', set_as_the_best_answer_path(answer), method: :post, remote: true, local: false
 
     .links
@@ -38,14 +38,14 @@
         - answer.links.each do |link|
           =content_tag(:div, id: "link-#{link.id}")
             li= link_to link.name, link.url
-            - if current_user&.author?(link.linkable)
+            - if can?(:destroy, link.linkable)
               p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
 
     - if answer.files.attached?
       - answer.files.each do |file|
         =content_tag(:div, id: "file-#{file.id}")
           p= link_to file.filename.to_s, url_for(file)
-          - if current_user&.author?(answer)
+          - if can?(:destroy, answer)
             p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
   
     p Counter

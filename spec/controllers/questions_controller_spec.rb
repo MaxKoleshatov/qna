@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:question) { create(:question, user_id: user.id) }
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
 
@@ -184,9 +184,9 @@ RSpec.describe QuestionsController, type: :controller do
         expect { delete :destroy, params: { id: question2 } }.to change(Question, :count).by(0)
       end
 
-      it 'redirects to show question' do
+      it 'redirects to start page' do
         delete :destroy, params: { id: question2 }
-        expect(response).to redirect_to question_path(question2)
+        expect(response).to redirect_to root_path
       end
     end
   end

@@ -61,9 +61,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer2 }, format: :js }.to change(Answer, :count).by(0)
       end
 
-      it 'redirects to question' do
+      it 'redirects to start page' do
         delete :destroy, params: { id: answer2 }, format: :js
-        expect(response).to render_template :destroy
+        expect(response).to redirect_to root_path
       end
     end
   end

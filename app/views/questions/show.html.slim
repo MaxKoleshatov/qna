@@ -12,7 +12,7 @@ p Counter
   - @question.files.each do |file|
     =content_tag(:div, id: "file-#{file.id}")
       p= link_to file.filename.to_s, url_for(file)
-      - if current_user&.author?(@question)
+      - if can?(:destroy, @question)
         p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
 
 - if !@question.links.empty?
@@ -22,7 +22,7 @@ p Counter
       - @question.links.each do |link|
         =content_tag(:div, id: "link-#{link.id}")
           li= link_to link.name, link.url
-          - if current_user&.author?(link.linkable)
+          - if can?(:destroy, link.linkable)
             p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
 
 p PRIZE FOR ANSWER
@@ -60,5 +60,5 @@ h3 Create new answer
     = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'link_fields'
   = form.submit 'Create Answer' 
 
-- if current_user&.author?(@question)
+- if can?(:destroy, @question)
   p = link_to 'Delete question', question_path(@question), method: :delete
