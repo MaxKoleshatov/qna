@@ -7,6 +7,8 @@ class QuestionsController < ApplicationController
 
   include Voted
 
+  authorize_resource
+
   def index
     @questions = Question.all
    
@@ -15,7 +17,6 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answer.links.new
-    # @comment = Comment.new
 
     gon.push({
       current_user: current_user,
@@ -44,11 +45,11 @@ class QuestionsController < ApplicationController
   def update
     @question.user = current_user
 
-    @question.update(question_params) if current_user.author?(@question)
+    @question.update(question_params) if can?(:update, @question)
   end
 
   def destroy
-    if current_user.author?(@question)
+    if can?(:destroy, @question)
       @question.destroy
       redirect_to questions_path, notice: 'Yes, you delete question'
     else

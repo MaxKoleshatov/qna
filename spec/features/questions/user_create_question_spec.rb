@@ -48,16 +48,14 @@ feature 'The user can ask a question to find out something' do
   describe 'Unauthenticated user' do
     scenario 'Unauthenticated user wants to create a question' do
       visit root_path
-      click_on 'Create new question'
 
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).not_to have_content 'Create new question'
     end
 
     scenario 'Unauthenticated user wants to create a question with attachment' do
       visit root_path
-      click_on 'Create new question'
 
-      expect(page).to have_content 'You need to sign in or sign up before continuing.'
+      expect(page).not_to have_content 'Create new question'
     end
   end
   
