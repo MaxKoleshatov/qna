@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
@@ -103,7 +105,7 @@ describe 'Questions API', type: :request do
 
   describe 'POST /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
-    let(:user)  { create(:user, admin: true) }
+    let(:user) { create(:user, admin: true) }
     let(:question) { create(:question, user: user) }
 
     it_behaves_like 'API Authorizable' do
