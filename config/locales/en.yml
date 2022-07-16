@@ -31,3 +31,10 @@
 
 en:
   hello: "Hello world"
+
+  notification_mailer:
+    notification:
+      title_new: 'New answer for question'
+      subject: 'You have got a new answer to your question'
+      user: 'user'
+      answer: 'answer'
