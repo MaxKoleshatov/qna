@@ -14,8 +14,15 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :prize, reject_if: :all_blank
 
   has_many :comments, dependent: :destroy, as: :commentable
+  has_many :subscriptions, dependent: :destroy
  
-
-
   validates :title, :body, presence: true
+
+  after_create :calculate_reputation
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
+  end
 end
