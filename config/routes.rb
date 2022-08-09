@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :comments, shallow: true
   end
 
+  get  :search, to: 'search#index'
+
   root to: 'welcome#index'
 
   resources :prizes
@@ -55,6 +57,3 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 end
-
-
-# resources :subscriptions, only: %i[create destroy], shallow: true
