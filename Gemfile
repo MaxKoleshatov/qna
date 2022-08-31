@@ -52,6 +52,7 @@ gem 'whenever', require: false
 # gem 'mysql2', '~> 0.4', :platform => :ruby
 gem 'thinking-sphinx', '~> 5.3'
 gem 'mysql2'
+gem 'therubyracer'
 gem 'mini_racer'
 
 group :development, :test do
