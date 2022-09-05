@@ -62,14 +62,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry'
   gem 'database_cleaner'
-  # gem 'capistrano-sidekiq'
-
-  # gem 'capistrano', require: false
-  # gem 'capistrano-bundler', require: false
-  # gem 'capistrano-rails', require: false
-  # gem 'capistrano-rvm', require: false
-  # gem 'capistrano-passenger', require: false 
-  # gem 'airbrussh'
 end
 
 group :development do
