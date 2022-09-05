@@ -1,5 +1,7 @@
 h1 "Start page"
 
+p = link_to 'Log in', new_user_session_path
+
 p = link_to 'Log out', destroy_user_session_path, method: :delete
 
 - if can?(:create, Question)
