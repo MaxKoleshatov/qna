@@ -17,7 +17,7 @@ every 1.day do
     runner "DailyDigestJob.perform_now"
   end
 
-  every 10.seconds do
+  every 1.minutes do
     rake "ts:index"
   end
   
