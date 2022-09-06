@@ -49,11 +49,11 @@ gem 'oj'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
-# gem 'mysql2', '~> 0.4', :platform => :ruby
 gem 'thinking-sphinx', '~> 5.3'
 gem 'mysql2'
 gem 'therubyracer'
 gem 'rake'
+gem 'unicorn'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -79,7 +79,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-passenger', require: false 
+  gem 'capistrano-passenger', require: false
+  gem 'capistrano3-unicorn', require: false 
 end
 
 group :test do
