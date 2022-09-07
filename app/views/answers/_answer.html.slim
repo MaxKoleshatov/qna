@@ -1,58 +1,59 @@
-.answer-errors
-  = render 'shared/errors', resource: answer
+- cache answer do
+  .answer-errors
+    = render 'shared/errors', resource: answer
 
-- if answer.persisted?
-  =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
-    = answer.text
+  - if answer.persisted?
+    =content_tag(:div, class: "answer-#{answer.id}", id: answer.id)
+      = answer.text
 
-    - if can?(:update, answer)
-      p = link_to 'Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id}
+      - if can?(:update, answer)
+        p = link_to 'Edit answer', '#', class: 'edit-answer-link', data: {answer_id: answer.id}
+      
+        p = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |form|
+          p
+            = form.label(:text)
+            = form.text_area :text
+          p
+            = form.label :files
+            = form.file_field :files, multiple: true
     
-      p = form_with model: answer, local: false, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |form|
-        p
-          = form.label(:text)
-          = form.text_area :text
-        p
-          = form.label :files
-          = form.file_field :files, multiple: true
-  
+          p Links:
+          p
+            = form.fields_for :links do |link|
+              = render 'questions/link_fields', form: link
+          p     
+            = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'questions/link_fields'
+          = form.submit 'Save'  
+    
+        p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, local: false
+
+      - if answer.best
+        p = 'This best answer'
+
+      - if can?(:update, answer.question)
+        p = link_to 'Make Best', set_as_the_best_answer_path(answer), method: :post, remote: true, local: false
+
+      .links
         p Links:
-        p
-          = form.fields_for :links do |link|
-            = render 'questions/link_fields', form: link
-        p     
-          = link_to_add_association 'add link', form, :links, form_name: 'form', partial: 'questions/link_fields'
-        = form.submit 'Save'  
-  
-      p = link_to 'Delete answer', answer_path(answer), method: :delete, remote: true, local: false
+        ul
+          - answer.links.each do |link|
+            =content_tag(:div, id: "link-#{link.id}")
+              li= link_to link.name, link.url
+              - if can?(:destroy, link.linkable)
+                p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
 
-    - if answer.best
-      p = 'This best answer'
+      - if answer.files.attached?
+        - answer.files.each do |file|
+          =content_tag(:div, id: "file-#{file.id}")
+            p= link_to file.filename.to_s, url_for(file)
+            - if can?(:destroy, answer)
+              p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
+    
+      p Counter
+      = render 'counters/counter', resource: answer
 
-    - if can?(:update, answer.question)
-      p = link_to 'Make Best', set_as_the_best_answer_path(answer), method: :post, remote: true, local: false
-
-    .links
-      p Links:
-      ul
-        - answer.links.each do |link|
-          =content_tag(:div, id: "link-#{link.id}")
-            li= link_to link.name, link.url
-            - if can?(:destroy, link.linkable)
-              p= link_to "Delete link", link_path(link), method: :delete, remote: true, local: false
-
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        =content_tag(:div, id: "file-#{file.id}")
-          p= link_to file.filename.to_s, url_for(file)
-          - if can?(:destroy, answer)
-            p= link_to "Delete attachment #{file.filename}", attachment_path(file), method: :delete, remote: true, local: false
-  
-    p Counter
-    = render 'counters/counter', resource: answer
-
-    =content_tag(:div, class: "comment-#{answer.id}")
-      p Comments:
-      = render answer.comments
-    = render 'comments/form', commentable: answer
+      =content_tag(:div, class: "comment-#{answer.id}")
+        p Comments:
+        = render answer.comments
+      = render 'comments/form', commentable: answer
 

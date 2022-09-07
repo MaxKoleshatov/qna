@@ -1,5 +1,6 @@
 =content_tag(:div, id: comment.id)
-  p= comment.text
+  - cache comment do
+    p= comment.text
   - if can?(:destroy, comment)
     p= link_to "Delete comment", comment_path(comment), method: :delete, remote: true, local: false
 
